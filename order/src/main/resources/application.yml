@@ -1,0 +1,29 @@
+server:
+  port: 9002
+
+spring:
+  application:
+    name: ORDER-SERVICE
+  cloud:
+    stream:
+      function:
+        definiton: transactionProducer;confirmOrderBySuccessTransaction
+      bindings:
+        transactionProducer-out-0:
+          destination: transaction-create
+        confirmOrderBySuccessTransaction-in-0:
+          destination: transaction-confirm
+      kafka:
+        bindings:
+          transactionProducer-out-0:
+            producer:
+              configuration:
+                key:
+                  serializer: org.apache.kafka.common.serialization.StringSerializer
+                value:
+                  serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost

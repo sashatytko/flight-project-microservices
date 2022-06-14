@@ -1,0 +1,20 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: PAYMENT-SERVICE
+  cloud:
+    stream:
+      function:
+        definiton: createTransactionFromKafka
+      bindings:
+        createTransactionFromKafka-in-0:
+          destination: transaction-create
+        createTransactionFromKafka-out-0:
+          destination: transaction-confirm
+      kafka:
+        bindings:
+          createTransactionFromKafka-in-0:
+            consumer:
+              autoCommitOffset: false
